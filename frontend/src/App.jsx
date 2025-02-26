@@ -1,4 +1,4 @@
-  import {useState} from 'react';
+  import {useEffect, useState} from 'react';
   import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
   import SignIn from './pages/auth/sign_in';
   import SignUp from './pages/auth/sign_up';
@@ -20,7 +20,7 @@ import  Navbar  from "./components/navbar";
     ):(
       <>
          <Navbar/>
-      <div className='min-h-[cal(h-screen-100px)]'>
+       <div className='min-h-[cal(h-screen-100px)]'>
         <Outlet/>
       </div>
       </>
@@ -28,6 +28,15 @@ import  Navbar  from "./components/navbar";
   }
 
   function App() {
+    const {theme}= useStore((state)=>state);
+
+    useEffect(() => {
+      if (theme === "dark") {
+        document.body.classList.add("dark");  // ✅ Use document.documentElement
+      } else {
+        document.body.classList.remove("dark");
+      }
+    }, [theme]);
 
     return (
     <main>

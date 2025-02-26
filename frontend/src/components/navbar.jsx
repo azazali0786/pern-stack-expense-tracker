@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Menu,
   MenuButton,
@@ -49,9 +49,9 @@ const UserMenu = () => {
   return (
     <Menu as="div" className="relative z-50">
       <div>
-        <MenuButton className="outline-none">
+        <MenuButton className="">
           <div className="flex items-center gap-2">
-            <div className="flex items-center justify-center w-10 h-10 text-white rounded-full cursor-pointer 2xl:w-12 2xl:h-12 bg-gray-700">
+            <div className="flex items-center justify-center w-10 h-10 text-white rounded-full cursor-pointer 2xl:w-12 2xl:h-12 bg-violet-600">
               <p className="text-2xl font-bold">
                 {user?.firstname?.charAt(0)}
               </p>
@@ -63,8 +63,8 @@ const UserMenu = () => {
 
       <TransitionWrapper>
         <MenuItems className="absolute right-0 z-50 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg">
-          <div className="p-4">
-            <div className="flex w-full gap-3 mb-4">
+          <div className="p-4 md:p-5">
+            <div className="flex w-full gap-3 mb-5">
               <div className="flex items-center justify-center text-white bg-gray-700 rounded-full cursor-pointer w-10 h-10 2xl:w-12 2xl:h-12">
                 <p className="text-2xl font-bold">
                   {user?.firstname?.charAt(0)}
@@ -72,7 +72,7 @@ const UserMenu = () => {
               </div>
               <div className="w-full">
                 <p className="text-violet-700">{user?.firstname}</p>
-                <span className="text-xs text-gray-500">{user?.country}</span>
+                <span className="text-xs overflow-ellipsis">{user?.country}</span>
               </div>
             </div>
 
@@ -142,14 +142,40 @@ const MobileSidebar = () => {
   );
 };
 
-export { UserMenu, MobileSidebar };
 
 const Navbar = () => {
+    const location = useLocation();
+  
     return (
-      <nav className=" dark:bg-slate-800">
-        <div className="container mx-auto px-4 py-2 flex justify-between items-center">
-          <div className="text-2xl font-bold text-violet-700">My-Finance</div>
-          <div className="flex items-center gap-4">
+      <nav className="dark:bg-slate-800">
+        <div className="container mx-auto px-4 py-5 flex justify-between items-center">
+          {/* Logo Section */}
+          <div className="text-2xl font-bold text-gray-700 flex items-center gap-2">
+            <div className="p-2 bg-violet-700 rounded-xl flex items-center justify-center">
+              <RiCurrencyFill className="text-white" />
+            </div>
+            <span>My-Finance</span>
+          </div>
+  
+          {/* Desktop Navigation Links */}
+          <div className="hidden md:flex gap-6">
+            {links.map(({ label, link }) => (
+              <Link
+                key={link}
+                to={link}
+                className={`px-4 py-2 rounded-full ${
+                  location.pathname === link
+                    ? "text-white bg-gray-700"
+                    : "text-gray-600 dark:text-gray-300 hover:text-violet-700"
+                }`}
+              >
+                {label}
+              </Link>
+            ))}
+          </div>
+  
+          <div className="flex items-center gap-12">
+              <ThemeSwitch/>
             <UserMenu />
             <MobileSidebar />
           </div>
@@ -158,5 +184,4 @@ const Navbar = () => {
     );
   };
   
-  // Export the Navbar component
-  export default Navbar;
+  export default Navbar;

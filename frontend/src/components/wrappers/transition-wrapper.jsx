@@ -6,10 +6,10 @@ const TransitionWrapper = ({children})=>{
         <Transition 
             as={Fragment}
             enter='Transition ease-out duration-100'
-            enterForm='transform opacity-0 scale-95'
+            // enterForm='transform opacity-0 scale-95'
             enterTo='transform opacity-100 scale-100'
             leave='Transition ease-in duration-75'
-            leaveForm='transform opacity-100 scale-100'
+            // leaveForm='transform opacity-100 scale-100'
             leaveTo='transform opacity-0 scale-95'
         >
             {children}
