@@ -38,3 +38,5 @@ const DialogWrapper = ({isOpen, closeModel, children})=>{
         </Transition>
     )
 }
+
+export default DialogWrapper;
