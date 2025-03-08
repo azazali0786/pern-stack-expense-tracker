@@ -11,6 +11,8 @@ import { MdAdd, MdVerifiedUser } from 'react-icons/md';
 import AccountMenu from '../components/account-dialog';
 import { formatCurrency, maskAccountNumber } from '../libs';
 import AddAccount from '../components/add-account';
+import AddMoney from '../components/add-money-account';
+import TransferMoney from '../components/transfer-money';
 
 
 const ICONS = {
@@ -49,7 +51,7 @@ function AccountPage() {
   const fetchAccounts = async ()=>{
     try{
       const {data: res} = await api.get(`/account`);
-      setData(data);
+      setData(res.data); 
     }catch(error){
       console.log(error);
       toast.error(error?.response?.data?.message);
@@ -109,17 +111,19 @@ function AccountPage() {
             <div className='flex items-center justify-between'>
               <div className='flex items-center'>
                 <p className='text-black dark:text-white text-2xl font-bold'>
-                  {acc.account_name}
+                  {acc?.account_name}
                 </p>
                 <MdVerifiedUser size={26} className='text-emerald-600 ml-1' />
-                <AccountMenu
+              </div>
+              <AccountMenu
                   addMoney={() => handleOpenAddMoney(acc)}
                   transferMoney={() => handleTransferMoney(acc)}
                 />
+                </div>
                 <span className='text-gray-600 dark:text-gray-400 font-light leading-loose'>
                   {maskAccountNumber(acc?.account_number)}
                 </span>
-                <p className='text-xs text-gray-600 dark:text-gray-500'>
+                <p className='text-xs pt-3 text-gray-600 dark:text-gray-500'>
                   {new Date(acc?.createdat).toLocaleDateString("en-US",{
                     dateStyle: "full"
                   })}
@@ -135,8 +139,6 @@ function AccountPage() {
                   >
                     Add Money
                   </button>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -145,26 +147,26 @@ function AccountPage() {
   )}
    </div>
 
-   {/* <AddAccount
+   <AddAccount
    isOpen={isOpen}
    setIsOpen={setIsOpen}
    refetch = {fetchAccounts}
    key={new Date().getTime()}
-   /> */}
-   {/* <AddMoney
+   />
+   <AddMoney
    isOpen={isOpenTopup}
    setIsOpen={setIsOpenTopup}
    id={selectedAccount}
    refetch = {fetchAccounts}
    key={new Date().getTime()+1}
-   /> */}
-   {/* <TransferMoney
+   />
+   <TransferMoney
    isOpen={isOpenTransfer}
    setIsOpen={setIsOpenTransfer}
    id={selectedAccount}
    refetch = {fetchAccounts}
    key={new Date().getTime()+2}
-   /> */}
+   />
    </>
   )
 }

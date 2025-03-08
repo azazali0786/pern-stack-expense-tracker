@@ -65,7 +65,7 @@ export default function AddAccount({isOpen, setIsOpen, refetch}) {
                         Select Account
                     </p>
                     <select
-                    onChange={(e)=> setSelectedAccount(e.target.value)}
+                    onChange={(e)=>setSelectedAccount(e.target.value)}
                     className='bg-transparent appearance-none border border-gray-300 dark:border-gray-800 rounded w-full py-2 px-3
                     text-gray-700 dark:text-gray-500 outline-none focus:ring-1 ring-blue-500 dark:placeholder:text-gray-700'
                     >
@@ -81,7 +81,7 @@ export default function AddAccount({isOpen, setIsOpen, refetch}) {
                         }
                     </select>
                 </div>
-                {user?.accounts.includes(selectedAccount) && (
+                {user?.accounts?.includes(selectedAccount) && (
                     <div className='flex items-center gap-2 bg-yellow-400 text-black p-2 mt-6 rounded'>
                         <MdOutlineWarning size={30}/>
                         <span className='text-sm'>
@@ -89,7 +89,7 @@ export default function AddAccount({isOpen, setIsOpen, refetch}) {
                         </span>
                     </div>
                 )}
-                {user?.accounts?.includes(selectedAccount) && (
+                {!user?.accounts?.includes(selectedAccount) && (
                     <>
                     <Input
                     name='account_number'

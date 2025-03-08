@@ -1,5 +1,5 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { BiTransfer } from "react-icons/bi"; // Fixed typo in import
+import { BiTransfer } from "react-icons/bi"; 
 import { FaMoneyCheckDollar } from "react-icons/fa6";
 import { MdMoreVert } from "react-icons/md";
 import TransitionWrapper from "./wrappers/transition-wrapper";

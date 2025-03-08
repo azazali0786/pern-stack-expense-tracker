@@ -1,19 +1,10 @@
-import React from "react";
-import {
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-  Popover,
-  PopoverButton,
-  PopoverPanel,
-} from "@headlessui/react";
-import { signOut } from "firebase/auth";
+import { Menu, Popover } from "@headlessui/react";
+import React, { useState } from "react";
 import { MdOutlineClose, MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { RiCurrencyFill } from "react-icons/ri";
-import { IoIosMenu } from "react-icons/io";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { auth } from "../libs/firebaseConfig";
+
+import { IoIosMenu } from "react-icons/io";
 import useStore from "../store";
 import ThemeSwitch from "./switch";
 import TransitionWrapper from "./wrappers/transition-wrapper";
@@ -26,84 +17,54 @@ const links = [
 ];
 
 const UserMenu = () => {
-  const { user, setCredentials } = useStore((state) => state);
+  const { user, setCredentails } = useStore((state) => state);
   const navigate = useNavigate();
 
-  const handleSignOut = async () => {
-    if (user?.provider === "google") {
-      await handleSocialLogout();
-    }
+  const handleSingout = () => {
     localStorage.removeItem("user");
-    setCredentials(null);
+    setCredentails(null);
     navigate("/sign-in");
   };
 
-  const handleSocialLogout = async () => {
-    try {
-      await signOut(auth);
-    } catch (error) {
-      console.error("Error signing out", error);
-    }
-  };
-
   return (
-    <Menu as="div" className="relative z-50">
+    <Menu as='div' className='relative  z-50'>
       <div>
-        <MenuButton className="">
-          <div className="flex items-center gap-2">
-            <div className="flex items-center justify-center w-10 h-10 text-white rounded-full cursor-pointer 2xl:w-12 2xl:h-12 bg-violet-600">
-              <p className="text-2xl font-bold">
-                {user?.firstname?.charAt(0)}
+        <Menu.Button className=''>
+          <div className='flex items-center gap-2'>
+            <div className='w-10 2xl:w-12 h-10 2xl:h-12 rounded-full text-white bg-violet-600 cursor-pointer flex items-center justify-center'>
+              <p className='text-2xl font-bold'>{user?.firstname?.charAt(0)}</p>
+            </div>
+            <div className='hidden md:block text-left'>
+              <p className='text-lg font-medium text-black dark:text-gray-400'>
+                {user?.firstname}
               </p>
+              <span className='text-sm text-gray-700 dark:text-gray-500'>
+                {user?.email}
+              </span>
             </div>
-            <MdOutlineKeyboardArrowDown className="hidden text-2xl text-gray-600 cursor-pointer md:block dark:text-gray-300" />
+            <MdOutlineKeyboardArrowDown className='hidden md:block text-2xl text-gray-600 dark:text-gray-300 cursor-pointer' />
           </div>
-        </MenuButton>
+        </Menu.Button>
       </div>
-
       <TransitionWrapper>
-        <MenuItems className="absolute right-0 z-50 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg">
-          <div className="p-4 md:p-5">
-            <div className="flex w-full gap-3 mb-5">
-              <div className="flex items-center justify-center text-white bg-gray-700 rounded-full cursor-pointer w-10 h-10 2xl:w-12 2xl:h-12">
-                <p className="text-2xl font-bold">
-                  {user?.firstname?.charAt(0)}
-                </p>
-              </div>
-              <div className="w-full">
-                <p className="text-violet-700">{user?.firstname}</p>
-                <span className="text-xs overflow-ellipsis">{user?.country}</span>
-              </div>
-            </div>
-
-            <MenuItem>
-              {({ active }) => (
-                <Link to="/settings">
-                  <button
-                    className={`${
-                      active ? "bg-gray-100" : ""
-                    } text-gray-900 dark:text-gray-300 flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                  >
-                    Profile
-                  </button>
-                </Link>
-              )}
-            </MenuItem>
-
-            <MenuItem>
+        <Menu.Items className='absolute z-50 right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white dark:bg-slate-800  shadow-lg ring-1 ring-black/5 focus:outline-none'>
+          <div className='px-1 py-1 '>
+            <Menu.Item>
               {({ active }) => (
                 <button
-                  onClick={handleSignOut}
+                  onClick={handleSingout}
                   className={`${
-                    active ? "bg-red-700/15" : ""
-                  } text-red-600 dark:bg-red-600 dark:text-white flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                    active
+                      ? "bg-violet-500/10 text-gray-900 dark:text-white"
+                      : "text-gray-900 dark:text-gray-500"
+                  } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                 >
                   Sign Out
                 </button>
               )}
-            </MenuItem>
+            </Menu.Item>
           </div>
-        </MenuItems>
+        </Menu.Items>
       </TransitionWrapper>
     </Menu>
   );
@@ -114,26 +75,41 @@ const MobileSidebar = () => {
   const path = location.pathname;
 
   return (
-    <div className="md:hidden">
-      <Popover className="relative">
+    <div className=''>
+      <Popover className=''>
         {({ open }) => (
           <>
-            <PopoverButton className="flex items-center rounded-md font-medium focus:outline-none text-gray-600 dark:text-gray-400">
+            <Popover.Button
+              className={`
+               flex md:hidden items-center rounded-md font-medium focus:outline-none text-gray-600 dark:text-gray-400`}
+            >
               {open ? <MdOutlineClose size={26} /> : <IoIosMenu size={26} />}
-            </PopoverButton>
-
+            </Popover.Button>
             <TransitionWrapper>
-              <PopoverPanel className="absolute z-50 w-screen max-w-sm px-4 py-6 mt-3 bg-white left-1/2 transform -translate-x-1/2 shadow-lg">
-                <div className="flex flex-col space-y-2">
+              <Popover.Panel className='absolute left-1/2 z-50 bg-white dark:bg-slate-800 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-4 py-6'>
+                <div className='flex flex-col space-y-2'>
                   {links.map(({ label, link }, index) => (
-                    <Link to={link} key={index} className="block">
-                      <PopoverButton className="text-gray-900 dark:text-gray-300 px-4 py-2 text-lg font-medium">
+                    <Link to={link} key={index}>
+                      <Popover.Button
+                        className={`${
+                          link === path
+                            ? "bg-black dark:bg-slate-900 text-white"
+                            : "text-gray-700 dark:text-gray-500"
+                        } w-1/2 px-6 py-2 rounded-full text-left`}
+                      >
                         {label}
-                      </PopoverButton>
+                      </Popover.Button>
                     </Link>
                   ))}
+
+                  <div className='flex items-center justify-between py-6 px-4'>
+                    <Popover.Button>
+                      <ThemeSwitch />
+                    </Popover.Button>
+                    <UserMenu />
+                  </div>
                 </div>
-              </PopoverPanel>
+              </Popover.Panel>
             </TransitionWrapper>
           </>
         )}
@@ -142,46 +118,50 @@ const MobileSidebar = () => {
   );
 };
 
-
 const Navbar = () => {
-    const location = useLocation();
-  
-    return (
-      <nav className="dark:bg-slate-800">
-        <div className="container mx-auto px-4 py-5 flex justify-between items-center">
-          {/* Logo Section */}
-          <div className="text-2xl font-bold text-gray-700 flex items-center gap-2">
-            <div className="p-2 bg-violet-700 rounded-xl flex items-center justify-center">
-              <RiCurrencyFill className="text-white" />
-            </div>
-            <span>My-Finance</span>
+  const location = useLocation();
+  const path = location.pathname;
+  const [openSidebar, setOpenSidebar] = useState(false);
+
+  return (
+    <div className='w-full flex items-center justify-between py-6'>
+      <Link to='/'>
+        <div className='flex items-center gap-2 cursor-pointer'>
+          <div className='w-10 md:w-12 h-10 md:h-12 flex items-center justify-center bg-violet-700 rounded-xl'>
+            <RiCurrencyFill className='text-white text-3xl hover:animate-spin' />
           </div>
-  
-          {/* Desktop Navigation Links */}
-          <div className="hidden md:flex gap-6">
-            {links.map(({ label, link }) => (
-              <Link
-                key={link}
-                to={link}
-                className={`px-4 py-2 rounded-full ${
-                  location.pathname === link
-                    ? "text-white bg-gray-700"
-                    : "text-gray-600 dark:text-gray-300 hover:text-violet-700"
-                }`}
-              >
-                {label}
-              </Link>
-            ))}
-          </div>
-  
-          <div className="flex items-center gap-12">
-              <ThemeSwitch/>
-            <UserMenu />
-            <MobileSidebar />
-          </div>
+          <span className='text-xl font-bold text-black dark:text-white'>
+            My-Finance
+          </span>
         </div>
-      </nav>
-    );
-  };
-  
-  export default Navbar;
+      </Link>
+
+      <div className='hidden md:flex items-center gap-4'>
+        {links.map(({ label, link }, index) => (
+          <div
+            key={index}
+            className={`${
+              link === path
+                ? "bg-black dark:bg-slate-800 text-white"
+                : "text-gray-700 dark:text-gray-500"
+            } px-6 py-2 rounded-full`}
+          >
+            <Link to={link}>{label}</Link>
+          </div>
+        ))}
+      </div>
+
+      <div className='hidden md:flex items-center gap-10 2xl:gap-20'>
+        <ThemeSwitch />
+
+        <UserMenu />
+      </div>
+
+      <div className='flex md:hidden'>
+        <MobileSidebar />
+      </div>
+    </div>
+  );
+};
+
+export default Navbar;

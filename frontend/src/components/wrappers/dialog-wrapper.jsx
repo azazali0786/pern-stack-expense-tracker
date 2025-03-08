@@ -1,17 +1,17 @@
 import { Dialog, Transition, TransitionChild } from "@headlessui/react";
 import React, {Fragment} from "react";
 
-const DialogWrapper = ({isOpen, closeModel, children})=>{
+const DialogWrapper = ({isOpen, closeModal, children})=>{
     return(
         <Transition appear show= {isOpen} as={Fragment}>
-            <Dialog as='div' className='relative z-50' onClose={closeModel}>
+            <Dialog as='div' className='relative z-50' onClose={closeModal}>
             <TransitionChild 
                 as={Fragment}
                 enter='ease-out duration-300'
-                enterForm='opacity-0'
+                enterform='opacity-0'
                 enterTo='opacity-100'
                 leave='ease-in duration-200'
-                leaveForm='opacity-100'
+                leaveform='opacity-100'
                 leaveTo='opacity-0'
             >
                 <div className="fixed inset-0 bg-black/60"/>
@@ -22,10 +22,10 @@ const DialogWrapper = ({isOpen, closeModel, children})=>{
                     <TransitionChild 
                      as={Fragment}
                      enter='ease-out duration-300'
-                     enterForm='opacity-0 scale-95'
+                     enterform='opacity-0 scale-95'
                      enterTo='opacity-100 scale-100'
                      leave='ease-in duration-200'
-                     leaveForm='opacity-100 scale-100'
+                     leaveform='opacity-100 scale-100'
                      leaveTo='opacity-0 scale-95'
                     >
                         {children}

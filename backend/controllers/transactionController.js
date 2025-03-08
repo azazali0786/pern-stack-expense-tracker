@@ -116,10 +116,10 @@ export const getDashboardInformation = async (req, res) => {
     const lastAccount = lastAccountResult.rows;
 
     res.status(200).json({
-      status: "success",
+      status: "success",  
       availableBalance,
       totalIncome,
-      totalExpense,
+      totalExpense,  
       chartData: data,
       lastTransactions,
       lastAccount,

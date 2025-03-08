@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import useStore from "../store"
+import useStore from "../store";
 import { useEffect, useState } from "react";
 import api from "../libs/apiCall";
 import { toast } from "sonner";
@@ -8,6 +8,8 @@ import { DialogPanel, DialogTitle } from "@headlessui/react";
 import Loading from "./loading";
 import { formatCurrency } from "../libs";
 import { MdOutlineWarning } from "react-icons/md";
+import Input from "./ui/input";
+import { Button } from "./ui/button";
 
 const TransferMoney = ({isOpen, setIsOpen, refetch})=>{
     const {user} = useStore((state)=>state);
@@ -28,10 +30,10 @@ const TransferMoney = ({isOpen, setIsOpen, refetch})=>{
             setLoading(true);
             const newData ={
                 ...data,
-                form_account: formAccountInfo.id,
+                from_account: formAccountInfo.id,
                 to_account: toAccountInfo.id,
             };
-
+            console.log(newData)
             const {data: res} = await api.put(`/transaction/transfer-money`, newData);
             if(res?.status == "success"){
                 toast.success(res?.message);
@@ -152,7 +154,7 @@ const TransferMoney = ({isOpen, setIsOpen, refetch})=>{
                                         </div>
                     )}
 
-                    {formAccountInfo.account_balance>0 && toAccountInfo.id(
+                    {formAccountInfo.account_balance>0 && toAccountInfo.id&&(
                         <>
                         <Input
                         type="number"

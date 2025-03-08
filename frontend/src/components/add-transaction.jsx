@@ -8,6 +8,8 @@ import { DialogPanel, DialogTitle } from "@headlessui/react";
 import Loading from "./loading";
 import { formatCurrency } from "../libs";
 import { MdOutlineWarning } from "react-icons/md";
+import Input from "./ui/input";
+import { Button } from "./ui/button";
 
 const AddTransaction = ({isOpen, setIsOpen, refetch})=>{
     const {user} = useStore((state)=>state);
@@ -21,7 +23,7 @@ const AddTransaction = ({isOpen, setIsOpen, refetch})=>{
     const [isLoading, setIsLoading] = useState(false);
     const [loading, setLoading] = useState(false);
     const [accountData, setAccountData] = useState([]);
-    const [accountInfo, setAccountInfo] = useState({});
+    const [accountInfo, setAccount] = useState({});
 
     const submitHandler = async (data) => {
         try{
@@ -30,7 +32,7 @@ const AddTransaction = ({isOpen, setIsOpen, refetch})=>{
                 ...data,
                 source: accountInfo.account_name
             };
-
+            console.log(newData)
             const {data: res} = await api.post(`/transaction/add-transaction/${accountInfo.id}`, newData);
             if(res?.status == "success"){
                 toast.success(res?.message);
@@ -89,7 +91,7 @@ const AddTransaction = ({isOpen, setIsOpen, refetch})=>{
                             Select Account
                         </p>
                         <select
-                        onChange={(e)=> getAccountBalance(setFormAccountInfo,e.target.value)}
+                        onChange={(e)=> getAccountBalance(e.target.value)}
                         className='inputStyles'
                         >
                             <option
