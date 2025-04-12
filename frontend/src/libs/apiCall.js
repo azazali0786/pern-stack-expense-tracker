@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const API_URL = `http://localhost:5000/api-v1`;
+const API_URL = `https://pern-stack-expense-tracker-production.up.railway.app/api-v1`;
 
-const api = axios.create({
+const api = axios.create({ 
   baseURL: API_URL,
 });
 
