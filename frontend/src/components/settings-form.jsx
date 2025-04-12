@@ -82,53 +82,55 @@ export default function SettingsForm() {
                 leaveTo="opacity-0"
                 afterLeave={() => setQuery("")}
               >
-                <ComboboxOptions className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-slate-900 py-1">
-                  {filteredCountries.length === 0 && query !== "" ? (
-                    <div className="relative cursor-default select-none px-4 py-2 text-gray-700 dark:text-gray-500">
-                      Nothing found.
-                    </div>
-                  ) : (
-                    filteredCountries?.map((country, index) => (
-                      <ComboboxOptions
-                        key={country.country + index}
-                        value={country}
-                        className={({ active }) =>
-                          `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                            active ? "bg-violet-600/20 text-white" : "text-gray-900"
-                          }`
-                        }
-                      >
-                        {({ selected, active }) => (
-                          <>
-                            <div className="flex items-center gap-2">
-                              <img
-                                src={country?.flag}
-                                alt={country.country}
-                                className="w-8 h-5 rounded-sm object-cover"
-                              />
-                              <span
-                                className={`block truncate text-gray-700 dark:text-gray-500 ${
-                                  selected ? "font-medium" : "font-normal"
-                                }`}
-                              >
-                                {country?.country}
-                              </span>
-                            </div>
-                            {selected ? (
-                              <span
-                                className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                                  active ? "text-white" : "text-teal-600"
-                                }`}
-                              >
-                                <BiCheck className="h-5 w-5" aria-hidden="true" />
-                              </span>
-                            ) : null}
-                          </>
-                        )}
-                      </ComboboxOptions>
-                    ))
-                  )}
-                </ComboboxOptions>
+                <ComboboxOptions className="absolute mt-1 max-h-60 overflow-auto rounded-md bg-white dark:bg-slate-900 py-1">
+                    {filteredCountries.length === 0 && query !== "" ? (
+                      <div className="relative cursor-default select-none px-4 py-2 text-gray-700 dark:text-gray-500">
+                        Nothing found.
+                      </div>
+                    ) : (
+                      filteredCountries?.map((country, index) => (
+                        <ComboboxOption
+                          key={country.country + index}
+                          value={country}
+                          className={({ active }) =>
+                            `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                              active ? "bg-violet-600/20 text-white" : "text-gray-900"
+                            }`
+                          }
+                        >
+                          {({ selected, active }) => (
+                            <>
+                              <div className="flex items-center gap-2">
+                                <img
+                                  src={country?.flag}
+                                  alt={country.country}
+                                  className="w-8 h-5 rounded-sm object-cover"
+                                />
+                                <span
+                                  className={`block truncate text-gray-700 dark:text-gray-500 ${
+                                    selected ? "font-medium" : "font-normal"
+                                  }`}
+                                >
+                                  {country?.country}
+                                </span>
+                              </div>
+                              {selected ? (
+                                
+                                <span
+                                    className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
+                                      active ? "text-white" : "text-teal-600"
+                                    }`}
+                                  >
+                                    <BiCheck className="h-5 w-5" aria-hidden="true" />
+                                  </span>
+                                ) : null}
+                              </>
+                            )}
+                          </ComboboxOption>
+                        ))
+                      )}
+                    </ComboboxOptions>
+
               </Transition>
             </Combobox>
           </div>
@@ -199,8 +201,8 @@ export default function SettingsForm() {
             </div>
             <div className='w-full'>
                 <span className='labelStyle'>Currency</span>
-                <select className='inputStyles'>
-                    <option { ...selectedCountry?.country||user?.country}></option>
+                <select className='inputStyles' >
+                <option>{selectedCountry?.currency || user?.currency}</option>
                 </select>
             </div>
         </div>
