@@ -13,16 +13,16 @@ export const comparePassword = async (userPassword, password) => {
   try {
     const isMatch = await bcrypt.compare(userPassword, password);
 
-    return isMatch;
+    return isMatch; 
   } catch (error) {
     console.log(error);
   }
-};
+}; 
 
 export const createJWT = (id) => {
   return JWT.sign(
     {
-      userId: id,
+      userId: id, 
     },
     process.env.JWT_SECRET,
     {

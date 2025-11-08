@@ -13,7 +13,7 @@ import api from '../libs/apiCall';
 export default function SettingsForm() {
     const {user, theme, setTheme} = useStore((state)=>state);
     const {register,handleSubmit,formState: {errors}} = useForm({defaultValues: {...user}});
-    const {selectedCountry, setSelectedCountry} = useState({country: user?.country, currency: user?.currency}||"");
+    const [selectedCountry, setSelectedCountry] = useState({country: user?.country, currency: user?.currency} || "");
     const [query, setQuery] = useState("");
     const [countriesData, setCountriesData] = useState([]);
     const [loading, setLoading] = useState(false);

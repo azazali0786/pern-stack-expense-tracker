@@ -1,20 +1,20 @@
-  import {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
   import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
   import SignIn from './pages/auth/sign_in';
   import SignUp from './pages/auth/sign_up';
   import Dashboard from './pages/dashboard';
   import Settings from './pages/settings';
   import AccountPage from './pages/account-page';
-  import Transactions from './pages/transactions'; 
+  import Transactions from './pages/transactions';  
   import useStore from './store';
 import { setAuthToken } from './libs/apiCall';
 import { Toaster } from 'sonner';
-import  Navbar  from "./components/navbar";
+import  Navbar  from "./components/navbar"; 
 
   const RootLayout = () => {
     const {user} = useStore((state)=>state);
     setAuthToken(user?.token||"");
-    // console.log(user);
+    // console.log(user); 
     return !user? (
       <Navigate to="sign-in" replace={true}/>
     ):(
@@ -31,17 +31,24 @@ import  Navbar  from "./components/navbar";
     const {theme}= useStore((state)=>state);
 
     useEffect(() => {
-      console.log("Theme changed to:", theme);
       if (theme === "dark") {
-        document.body.classList.add("dark");  // ✅ Use document.documentElement
+        document.documentElement.classList.add("dark");
+        document.body.style.backgroundColor = "#0f172a";
       } else {
-        document.body.classList.remove("dark");
+        document.documentElement.classList.remove("dark");
+        document.body.style.backgroundColor = "#f3f4f6";
       }
     }, [theme]);
 
     return (
     <main>
-      <div className='w-full min-h-screen px-6 bg-gray-100 md:px-20 dark:bg-slate-900'>
+      <div 
+        className='w-full min-h-screen px-6 bg-gray-100 md:px-20 dark:bg-slate-900'
+        style={{ 
+          backgroundColor: theme === "dark" ? "#1e293b" : "#f3f4f6",
+          color: theme === "dark" ? "#ffffff" : "#000000"
+        }}
+      >
         <Routes>
           <Route element={<RootLayout/>}>
           <Route path="/" element={<Navigate to="/overview"/>}></Route>
